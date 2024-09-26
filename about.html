@@ -27,7 +27,7 @@
             background-size: cover;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -86,10 +86,11 @@
             padding: 10px 40px;
             position: relative;
             background-color: inherit;
-            width: calc(100% - 40px);
+            width: calc(50% - 20px);
             opacity: 0;
             transform: translateY(100px);
             transition: all 0.8s ease;
+            margin-bottom: 20px;
         }
         .journey-item.visible {
             opacity: 1;
@@ -181,6 +182,7 @@
             border-radius: 10px;
             text-align: center;
             margin-left: 20px;
+            flex-shrink: 0; /* 防止时间信息被压缩 */
         }
     </style>
 </head>

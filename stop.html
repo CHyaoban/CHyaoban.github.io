@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站建设中</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            color: #333;
+        }
+        #countdown {
+            font-size: 4em;
+            font-weight: bold;
+            color: #007bff;
+            margin: 20px 0;
+        }
+        .message {
+            font-size: 1.5em;
+            color: #666;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">返回</button>
+    <div class="container">
+        <h1>网站建设中</h1>
+        <div id="countdown"></div>
+        <p class="message">我们正在努力建设新网站，敬请期待！</p>
+    </div>
+
+    <script>
+        // 设置目标日期为10月10日的23:59:59
+        const targetDate = new Date(new Date().getFullYear(), 9, 10, 23, 59, 59).getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days}天 ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("countdown").innerHTML = "网站已开放！";
+            }
+        }
+
+        const countdownTimer = setInterval(updateCountdown, 1000);
+
+        updateCountdown(); // 立即更新倒计时
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

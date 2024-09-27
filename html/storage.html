@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粗储存库</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        :root {
+            --primary-color: #34495e;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            transition: transform 0.3s ease;
+        }
+        .nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        .nav a:hover {
+            transform: translateY(-2px);
+        }
+        .nav a:hover::after {
+            width: 100%;
+        }
+        .nav a.active::after {
+            width: 100%;
+        }
+        
+        .category {
+            margin-bottom: 30px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f0f8ff;
+        }
+        
+        .category-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e1f5fe;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .category-header:hover {
+            background-color: #b3e5fc;
+        }
+        
+        .category-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .category-header.collapsed i {
+            transform: rotate(-90deg);
+        }
+        
+        .software-list {
+            display: none;
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .software-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        
+        .software-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .software-item:last-child {
+            border-bottom: none;
+        }
+        
+        .software-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .software-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #3498db;
+        }
+        
+        .software-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .software-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .download-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .toggle-indicator {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .header-info {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 10px; /* 与导航栏分开 */
+            border-top: 2px solid var(--primary-color); /* 添加分界线 */
+            border-bottom: 2px solid var(--primary-color); /* 添加分界线 */
+        }
+
+        .clock {
+            font-size: 1.5em; /* 增大字体 */
+            margin-right: 20px;
+        }
+
+        .date {
+            font-size: 1.5em; /* 增大字体 */
+        }
+
+        .intro {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .sub-nav {
+            background-color: var(--primary-color);
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color); /* 添加分界线 */
+        }
+
+        .sub-nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sub-nav li {
+            margin: 0 15px;
+        }
+
+        .sub-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .sub-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+
+        /* 优化的导航栏样式 */
+        .header {
+            background-color: var(--primary-color);
+            padding: 10px 0;
+            position: static; /* 改为静态定位 */
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--accent-color);
+        }
+
+        .nav {
+            display: flex;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover, .nav a.active {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .welcome-text {
+            color: white;
+            margin-left: 20px;
+            font-size: 1.1em;
+        }
+
+        .name {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* 新的响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .nav a {
+                margin: 5px 0;
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav a:last-child {
+                border-bottom: none;
+            }
+
+            .welcome-text {
+                margin-left: 0;
+                margin-top: 10px;
+                align-self: flex-start;
+            }
+        }
+
+        /* 更小屏幕的额外调整 */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5em; /* 减小logo大小 */
+            }
+
+            .nav a {
+                padding: 8px 12px; /* 减小导航链接的内边距 */
+                font-size: 0.9em; /* 稍微减小字体大小 */
+            }
+
+            .welcome-text {
+                font-size: 0.9em; /* 减小欢迎文字的大小 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">MYBLOG</a>
+            <nav class="nav">
+                <a href="https://chyaoban.github.io/guide.html">导航页</a>
+                <a href="https://chyaoban.github.io/html/index.html">主页</a>
+                <a href="https://chyaoban.github.io/html/stop.html">知识医院</a>
+                <a href="https://chyaoban.github.io/html/stop.html">知识学院</a>
+                <a href="https://chyaoban.github.io/html/storage.html" class="active">储存库</a>
+                <a href="https://chyaoban.github.io/html/about.html">关于我</a>
+            </nav>
+            <p class="welcome-text">
+                欢迎来到<span class="name">耀斑</span>的博客~
+            </p>
+        </div>
+    </header>
+
+    <div class="header-info">
+        <span class="clock">当前时间：<span id="clock"></span></span>
+        <span class="date" id="date"></span>
+    </div>
+
+    <div class="footer-info">
+        数据更新于2024年9月25日
+    </div>
+
+    <div class="container">
+        <div class="intro">
+            <h2>欢迎来到我的软件储存库</h2>
+            <p>这是我自己制作的私人软件镜像仓库，这里收集了各种操作系统的常用便携软件插件，基本都是免费和开源的，您可以根据需要进行下载。请注意遵守相关软件的使用协议。这里仅做分享，如有版权问题会立刻删除</p>
+        </div>
+
+        <div class="sub-nav">
+            <ul>
+                <li><a href="#linux">Linux 软件</a></li>
+                <li><a href="#windows">Windows 软件</a></li>
+                <li><a href="#mac">Mac 软件</a></li>
+            </ul>
+        </div>
+
+        <h1>软件储存库</h1>
+        
+        <div class="category" id="linux">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h2 class="category-title">Linux 软件</h2>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="toggle-indicator">点击展开/收起</div>
+            <ul class="software-list">
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-terminal software-icon"></i>
+                        <div>
+                            <div class="software-name">Ubuntu 24.04.1 LTS系统jing x</div>
+                            <div class="software-description">流行的 Linux 发行版</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('Ubuntu', 'https://releases.ubuntu.com/24.04/ubuntu-24.04.1-desktop-amd64.iso')">下载</button>
+                </li>
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-code software-icon"></i>
+                        <div>
+                            <div class="software-name">Visual Studio Code</div>
+                            <div class="software-description">强大的代码编辑器</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('Visual Studio Code', 'https://www.baidu2.com')">下载</button>
+                </li>
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-code software-icon"></i>
+                        <div>
+                            <div class="software-name">ROS</div>
+                            <div class="software-description">机器人操作系统</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('ROS', 'https://www.baidu3.com')">下载</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="category" id="windows">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h2 class="category-title">Windows 软件</h2>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="toggle-indicator">点击展开/收起</div>
+            <ul class="software-list">
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-window-maximize software-icon"></i>
+                        <div>
+                            <div class="software-name">镜像烧录工具</div>
+                            <div class="software-description">系统镜像烧录工具</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('镜像烧录工具', 'https://www.baidu4.com')">下载</button>
+                </li>
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-window-maximize software-icon"></i>
+                        <div>
+                            <div class="software-name">WPS</div>
+                            <div class="software-description">办公软件套件</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('WPS', 'https://www.baidu5.com')">下载</button>
+                </li>
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-shield-alt software-icon"></i>
+                        <div>
+                            <div class="software-name">Windows Defender</div>
+                            <div class="software-description">内置安全软件</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('Windows Defender', 'https://www.baidu6.com')">下载</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="category" id="mac">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <h2 class="category-title">Mac 软件</h2>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="toggle-indicator">点击展开/收起</div>
+            <ul class="software-list">
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fab fa-apple software-icon"></i>
+                        <div>
+                            <div class="software-name">Xcode</div>
+                            <div class="software-description">iOS 开发工具</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('Xcode', 'https://www.baidu7.com')">下载</button>
+                </li>
+                <li class="software-item">
+                    <div class="software-info">
+                        <i class="fas fa-photo-video software-icon"></i>
+                        <div>
+                            <div class="software-name">Final Cut Pro</div>
+                            <div class="software-description">专业视频编辑软件</div>
+                        </div>
+                    </div>
+                    <button class="download-btn" onclick="downloadSoftware('Final Cut Pro', 'https://www.baidu8.com')">下载</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-info">
+            无商业盈利用途，只为分享保存，如果涉及版权问题，联系立刻删除。
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            var now = new Date();
+            var clock = document.getElementById('clock');
+            var date = document.getElementById('date');
+            
+            clock.textContent = now.toLocaleTimeString('zh-CN');
+            date.textContent = now.toLocaleDateString('zh-CN');
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function toggleCategory(header) {
+            var list = header.nextElementSibling.nextElementSibling;
+            var icon = header.querySelector('i');
+            if (list.style.display === "none" || list.style.display === "") {
+                list.style.display = "block";
+                icon.style.transform = "rotate(0deg)";
+            } else {
+                list.style.display = "none";
+                icon.style.transform = "rotate(-90deg)";
+            }
+        }
+
+        function downloadSoftware(softwareName, downloadLink) {
+            console.log('正在下载：' + softwareName);
+            window.location.href = downloadLink;
+        }
+
+        // 移除导航栏滚动效果
+        // window.addEventListener('scroll', function() { ... });
+    </script>
+</body>
+</html>

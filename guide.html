@@ -12,33 +12,56 @@
             padding: 0;
             height: 100%;
             font-family: 'Noto Sans SC', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         body {
             background-image: url('https://img1.wallspic.com/attachments/crops/8/4/3/0/7/170348/170348-re_dai_qi_xuan-feng_bao-zhe_ge_xing_qiu-qi_fen-de_ping_xian-1920x1080.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
+            background-color: transparent;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr 2fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+            min-height: 600px;
+            min-width: 800px;
+            transform-origin: top left;
         }
         .clock-container {
+            grid-column: 1 / span 2;
+            grid-row: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
         }
         .clock {
-            width: 100px;
-            height: 100px;
+            position: relative;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .clock:hover {
+            transform: scale(1.05);
+        }
+        .clock-face {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
             position: relative;
-            margin-bottom: 10px;
         }
         .hand {
             position: absolute;
@@ -47,62 +70,252 @@
             transform-origin: 50% 100%;
             background-color: #333;
         }
-        .hour-hand { width: 4px; height: 30px; margin-left: -2px; }
-        .minute-hand { width: 3px; height: 40px; margin-left: -1.5px; }
-        .second-hand { width: 2px; height: 45px; margin-left: -1px; background-color: #f00; }
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            margin-left: -3px;
+        }
+        .minute-hand {
+            width: 4px;
+            height: 80px;
+            margin-left: -2px;
+        }
+        .second-hand {
+            width: 2px;
+            height: 90px;
+            margin-left: -1px;
+            background-color: #f00;
+        }
         .clock-center {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: #333;
             transform: translate(-50%, -50%);
         }
         .digital-clock {
+            margin-left: 15px;
             color: white;
-            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-        .digital-time { font-size: 1.5em; font-weight: 500; }
-        .digital-date { font-size: 1em; }
+        .digital-time {
+            font-size: 3.2em;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .digital-date {
+            font-size: 1.8em;
+            font-weight: 400;
+        }
         .welcome {
+            grid-column: 3;
+            grid-row: 1;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
             color: white;
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: 0;
         }
-        .main-buttons, .sub-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+        .welcome:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .main-buttons {
+            grid-column: 3;
+            grid-row: 2 / span 2;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .main-buttons:hover {
+            background-color: rgba(0, 0, 0, 0.5);
         }
         .nav-title {
             color: white;
-            font-size: 1.5em;
+            font-size: 2em;
             text-align: center;
-            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            height: calc(100% - 60px);
+        }
+        .buttons-grid a {
+            text-decoration: none;
+            display: flex;
+        }
+        .buttons-grid button {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4em;
+            font-weight: 500;
+            background-color: rgba(76, 175, 80, 0.5);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            padding: 15px;
+        }
+        .buttons-grid button:hover {
+            background-color: rgba(76, 175, 80, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .motto {
+            grid-column: 1 / span 2;
+            grid-row: 2;
+            font-style: italic;
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .motto:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .sub-buttons {
+            grid-column: 1 / span 2;
+            grid-row: 3;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
         }
         button {
-            width: 100%;
-            padding: 10px;
+            padding: 25px;
             border: none;
             background-color: rgba(76, 175, 80, 0.5);
             color: white;
-            border-radius: 5px;
-            font-size: 1em;
+            border-radius: 15px;
             cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-weight: 400;
+        }
+        button:hover {
+            background-color: rgba(76, 175, 80, 0.7);
+            transform: scale(1.05);
         }
         .sub-buttons button {
             background-color: rgba(0, 140, 186, 0.5);
+            font-size: 1.3em;
+            padding: 20px;
         }
-        .motto {
-            color: white;
-            text-align: center;
-            font-size: 1em;
-            font-style: italic;
-            margin-bottom: 20px;
+        .sub-buttons button:hover {
+            background-color: rgba(0, 140, 186, 0.7);
+        }
+
+        /* 添加移动设备适配样式 */
+        @media (max-width: 768px) {
+            body {
+                background-position: center center;
+                background-attachment: fixed;
+                height: auto;
+                overflow-y: auto;
+            }
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto auto;
+                gap: 15px;
+                padding: 15px;
+                width: 95%;
+                height: auto;
+                min-height: auto;
+                min-width: auto;
+                transform: none !important;
+                margin: 20px auto;
+            }
+            .clock-container {
+                grid-column: 1;
+                grid-row: 1;
+                flex-direction: column;
+                align-items: center;
+            }
+            .clock {
+                width: 80px;
+                height: 80px;
+            }
+            .digital-clock {
+                margin-left: 0;
+                margin-top: 10px;
+                text-align: center;
+            }
+            .digital-time {
+                font-size: 1.8em;
+            }
+            .digital-date {
+                font-size: 1em;
+            }
+            .welcome {
+                grid-column: 1;
+                grid-row: 2;
+                font-size: 1.2em;
+                text-align: center;
+                justify-content: center;
+                max-width: 100%;
+                margin: 0;
+                padding: 8px 15px;
+            }
+            .main-buttons {
+                grid-column: 1;
+                grid-row: 3;
+                padding: 15px;
+            }
+            .nav-title {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            .buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .buttons-grid button {
+                font-size: 1em;
+                padding: 8px;
+            }
+            .motto {
+                grid-column: 1;
+                grid-row: 4;
+                font-size: 1em;
+                padding: 10px;
+            }
+            .sub-buttons {
+                grid-column: 1;
+                grid-row: 5;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            .sub-buttons button {
+                font-size: 0.9em;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -110,10 +323,12 @@
     <div class="container">
         <div class="clock-container">
             <div class="clock" id="clock">
-                <div class="hand hour-hand"></div>
-                <div class="hand minute-hand"></div>
-                <div class="hand second-hand"></div>
-                <div class="clock-center"></div>
+                <div class="clock-face">
+                    <div class="hand hour-hand"></div>
+                    <div class="hand minute-hand"></div>
+                    <div class="hand second-hand"></div>
+                    <div class="clock-center"></div>
+                </div>
             </div>
             <div class="digital-clock">
                 <div class="digital-time" id="digital-time"></div>
@@ -121,29 +336,36 @@
             </div>
         </div>
         <div class="welcome">
-            欢迎来到我的世界引导页<br>
-            Welcome to my guide page
+          欢迎来到我的世界引导页<br>
+          Welcome to my guide page
         </div>
+
         <div class="main-buttons">
             <div class="nav-title">网页导航</div>
-            <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>我的主页</button></a>
-            <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识医院</button></a>
-            <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识学院</button></a>
-            <a href="https://chyaoban.github.io/html/storage.html" target="_blank"><button>储存库</button></a>
-            <a href="https://chyaoban.github.io/html/about.html" target="_blank"><button>关于我</button></a>
-            <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>更多(待开发)</button></a>
+            <div class="buttons-grid">
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>我的主页</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识医院</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识学院</button></a>
+                <a href="https://chyaoban.github.io/html/storage.html" target="_blank"><button>储存库</button></a>
+                <a href="https://chyaoban.github.io/html/about.html" target="_blank"><button>关于我</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>更多(待开发)</button></a>
+            </div>
         </div>
         <div class="motto">
-            我本楚狂人，<br>
-            凤歌笑孔丘。<br>
-            韶华正茂岁方长，<br>
-            何惧风霜试剑芒。
+          我本楚狂人，<br>
+          凤歌笑孔丘。<br>
+          韶华正茂岁方长，<br>
+          何惧风霜试剑芒。
         </div>
         <div class="sub-buttons">
             <a href="https://github.com/example1" target="_blank"><button><i class="fab fa-github"></i></button></a>
             <a href="https://github.com/example2" target="_blank"><button><i class="fab fa-github"></i></button></a>
             <a href="https://github.com/example3" target="_blank"><button><i class="fab fa-github"></i></button></a>
             <a href="https://github.com/example4" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example5" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example6" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example7" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example8" target="_blank"><button><i class="fab fa-github"></i></button></a>
         </div>
     </div>
 
@@ -169,7 +391,26 @@
         }
 
         setInterval(updateClock, 1000);
-        updateClock();
+        updateClock(); // 立即更新时钟
+
+        function adjustPageSize() {
+            if (window.innerWidth > 768) {
+                const container = document.querySelector('.container');
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const containerWidth = 1200;
+                const containerHeight = 800;
+                const scaleX = windowWidth / containerWidth;
+                const scaleY = windowHeight / containerHeight;
+                const scale = Math.min(scaleX, scaleY);
+
+                container.style.transform = `scale(${scale})`;
+                container.style.transformOrigin = 'center center';
+            }
+        }
+
+        window.addEventListener('load', adjustPageSize);
+        window.addEventListener('resize', adjustPageSize);
     </script>
 </body>
 </html>

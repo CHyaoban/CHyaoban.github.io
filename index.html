@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎页面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        body {
+            background-image: url('https://img1.wallspic.com/attachments/crops/8/4/3/0/7/170348/170348-re_dai_qi_xuan-feng_bao-zhe_ge_xing_qiu-qi_fen-de_ping_xian-1920x1080.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: transparent;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr 2fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+        }
+        .clock-container {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+            display: flex;
+            align-items: center;
+        }
+        .clock {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .clock:hover {
+            transform: scale(1.05);
+        }
+        .clock-face {
+            width: 150px;
+            height: 150px;
+            border-radius: 10%;
+            position: relative;
+        }
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+            background-color: #333;
+        }
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            margin-left: -3px;
+        }
+        .minute-hand {
+            width: 4px;
+            height: 80px;
+            margin-left: -2px;
+        }
+        .second-hand {
+            width: 2px;
+            height: 90px;
+            margin-left: -1px;
+            background-color: #f00;
+        }
+        .clock-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #333;
+            transform: translate(-50%, -50%);
+        }
+        .digital-clock {
+            margin-left: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .digital-time {
+            font-size: 3.5em;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .digital-date {
+            font-size: 2em;
+            font-weight: 400;
+        }
+        .welcome {
+            grid-column: 3;
+            grid-row: 1;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .welcome:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .main-buttons {
+            grid-column: 3;
+            grid-row: 2 / span 2;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .main-buttons:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .nav-title {
+            color: white;
+            font-size: 1.8em;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            height: calc(100% - 50px); /* 减去标题的高度 */
+        }
+        .buttons-grid a {
+            text-decoration: none;
+            display: flex;
+        }
+        .buttons-grid button {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: 500;
+            background-color: rgba(76, 175, 80, 0.5);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            padding: 10px;
+        }
+        .buttons-grid button:hover {
+            background-color: rgba(76, 175, 80, 0.7);
+            transform: scale(1.05);
+        }
+        .motto {
+            grid-column: 1 / span 2;
+            grid-row: 2;
+            font-style: italic;
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .motto:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .sub-buttons {
+            grid-column: 1 / span 2;
+            grid-row: 3;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        button {
+            padding: 25px;
+            border: none;
+            background-color: rgba(76, 175, 80, 0.5);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-weight: 400;
+        }
+        button:hover {
+            background-color: rgba(76, 175, 80, 0.7);
+            transform: scale(1.05);
+        }
+        .sub-buttons button {
+            background-color: rgba(0, 140, 186, 0.5);
+            font-size: 1.3em;
+            padding: 20px;
+        }
+        .sub-buttons button:hover {
+            background-color: rgba(0, 140, 186, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clock-container">
+            <div class="clock" id="clock">
+                <div class="clock-face">
+                    <div class="hand hour-hand"></div>
+                    <div class="hand minute-hand"></div>
+                    <div class="hand second-hand"></div>
+                    <div class="clock-center"></div>
+                </div>
+            </div>
+            <div class="digital-clock">
+                <div class="digital-time" id="digital-time"></div>
+                <div class="digital-date" id="digital-date"></div>
+            </div>
+        </div>
+        <div class="welcome">
+          欢迎来到我的世界引导页<br>
+          Welcome to my guide page
+        </div>
+
+        <div class="main-buttons">
+            <div class="nav-title">网页导航</div>
+            <div class="buttons-grid">
+                <a href="https://chyaoban.github.io/html/main.html" target="_blank"><button>我的主页</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识医院</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识学院</button></a>
+                <a href="https://chyaoban.github.io/html/storage.html" target="_blank"><button>储存库</button></a>
+                <a href="https://chyaoban.github.io/html/about.html" target="_blank"><button>关于我</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>更多(待开发)</button></a>
+            </div>
+        </div>
+        <div class="motto">
+          我本楚狂人，<br>
+          凤歌笑孔丘。<br>
+          韶华正茂岁方长，<br>
+          何惧风霜试剑芒。
+        </div>
+        <div class="sub-buttons">
+            <a href="https://github.com/example1" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example2" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example3" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example4" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example5" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example6" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example7" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://github.com/example8" target="_blank"><button><i class="fab fa-github"></i></button></a>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            const hourDeg = (hours % 12 + minutes / 60) * 30;
+            const minuteDeg = (minutes + seconds / 60) * 6;
+            const secondDeg = seconds * 6;
+            
+            document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+            document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+            document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
+            
+            const digitalTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const date = now.toLocaleDateString('zh-CN');
+            document.getElementById('digital-time').textContent = digitalTime;
+            document.getElementById('digital-date').textContent = date;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // 立即更新时钟
+    </script>
+</body>
+</html>

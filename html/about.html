@@ -101,18 +101,81 @@
             color: white;
             padding: 25px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: stretch;
             margin-bottom: 20px; /* 减小与main-content的距离 */
             border-radius: 15px; /* 添加圆角 */
         }
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .analog-clock {
+            width: 200px;
+            height: 200px;
+            border: 10px solid #333;
+            border-radius: 50%;
+            position: relative;
+            background: #f0f0f0;
+        }
+        
+        .clock-face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+            transform: translateX(-50%) rotate(0deg);
+        }
+        
+        .hour-hand {
+            width: 6px;
+            height: 30%;
+            background: #333;
+        }
+        
+        .minute-hand {
+            width: 4px;
+            height: 40%;
+            background: #666;
+        }
+        
+        .second-hand {
+            width: 2px;
+            height: 45%;
+            background: #f00;
+        }
+        
+        .center-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .digital-clock {
+            text-align: center;
+        }
+        
         .poetic-intro {
             font-family: 'Noto Serif SC', serif;
             font-style: italic;
             line-height: 1.4;
             font-size: 1.5em;
             margin: 0;
-            flex: 1;
+            text-align: center;
         }
         .poetic-intro p {
             margin: 5px 0;
@@ -246,47 +309,73 @@
             font-family: 'Arial', sans-serif;
             margin-bottom: 10px;
         }
-        .date {
-            font-size: 18px;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-        }
         .time-info {
             background-color: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
+            font-size: 30px;
             text-align: center;
             margin-left: 20px;
             flex-shrink: 0; /* 防止时间信息被压缩 */
+        }
+        .date-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .date {
+            font-size: 25px;
+            font-weight: bold;
+            margin-left: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .day {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
   <div class="header">
-    <div class="logo">MYBLOG</div>
+    <div class="logo">MYBLOG
+    欢迎来到<span class="name">耀斑</span>的博客~
+    </div>
+    
     <nav class="nav">
         <a href="https://chyaoban.github.io/guide.html">导航页</a>
-        <a href="https://chyaoban.github.io/html/index.html">主页</a>
+        <a href="https://chyaoban.github.io/html/index.html">我的主页</a>
         <a href="https://chyaoban.github.io/html/stop.html">知识医院</a>
         <a href="https://chyaoban.github.io/html/stop.html">知识学院</a>
         <a href="https://chyaoban.github.io/html/storage.html">储存库</a>
         <a href="https://chyaoban.github.io/html/about.html" class="active">关于我</a>
     </nav>
-    <p class="welcome-text">
-        欢迎来到<span class="name">耀斑</span>的博客~
-    </p>
   </div>
 
   <div class="container">
     <div class="about-me" id="about">
-      <div class="poetic-intro">
-          <p>我本楚狂人，凤歌笑孔丘。</p>
-          <p>我不过才来这世界 <span class="time-display" id="age"></span>，</p>
-          <p>韶华正茂岁方长，何惧风霜试剑芒。</p>
-      </div>
-      <div class="time-info">
+      <div class="clock-container">
+        <div class="analog-clock">
+          <div class="clock-face">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-dot"></div>
+          </div>
+        </div>
+        <div class="digital-clock">
           <div class="clock" id="clock"></div>
-          <div class="date" id="date"></div>
+          <div class="date-container">
+            <div id="date" class="date"></div>
+            <div id="day" class="day"></div>
+          </div>
+        </div>
+      </div>
+      <div class="poetic-intro">
+        <p>我本楚狂人，凤歌笑孔丘。</p>
+        <p>我不过才来这世界 <span class="time-display" id="age"></span>，</p>
+        <p>韶华正茂岁方长，何惧风霜试剑芒。</p>
       </div>
     </div>
     
@@ -407,14 +496,47 @@
             clockElement.textContent = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
             // 更新日期
-            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
             dateElement.textContent = now.toLocaleDateString('zh-CN', options);
         }
+
+    function updateAnalogClock() {
+        const now = new Date();
+        const secondHand = document.querySelector('.second-hand');
+        const minuteHand = document.querySelector('.minute-hand');
+        const hourHand = document.querySelector('.hour-hand');
+        
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+        
+        const secondDegrees = (seconds / 60) * 360;
+        const minuteDegrees = ((minutes * 60 + seconds) / 3600) * 360;
+        const hourDegrees = ((hours % 12 * 3600 + minutes * 60 + seconds) / 43200) * 360;
+        
+        secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
+        minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
+        hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+    }
+
+    function updateDate() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = now.toLocaleDateString('zh-CN', options);
+        
+        const dayOptions = { weekday: 'long' };
+        const dayString = now.toLocaleDateString('zh-CN', dayOptions);
+        
+        document.getElementById('date').textContent = dateString;
+        document.getElementById('day').textContent = dayString;
+    }
 
     // 每秒更新一次时钟
     setInterval(updateClock, 1000);
     updateClock(); // 立即更新一次
 
+    setInterval(updateAnalogClock, 1000);
+    updateAnalogClock(); // 立即更新一次
 
     setInterval(updateAge, 1000); // 每秒更新一次
     updateAge(); // 页面加载时立即更新
@@ -435,7 +557,12 @@
 
     // 监听页面可见性变化
     document.addEventListener('visibilitychange', handleVisibility);
+
+    // 立即更新一次日期
+    updateDate();
+
+    // 每天更新一次日期
+    setInterval(updateDate, 24 * 60 * 60 * 1000);
   </script>
 </body>
 </html>
-

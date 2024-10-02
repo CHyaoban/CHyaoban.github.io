@@ -29,9 +29,9 @@
             grid-template-columns: auto 1fr 2fr;
             grid-template-rows: auto 1fr auto;
             gap: 30px;
-            padding: 30px;
-            width: 90%;
-            max-width: 1200px;
+            padding: 20px;
+            width: 96%;
+            max-width: 1400px;
             height: 80vh;
             min-height: 600px;
             min-width: 800px;
@@ -202,7 +202,7 @@
         }
         .sub-buttons {
             grid-column: 1 / span 2;
-            grid-row: 3;
+            grid-row: 4;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
@@ -251,6 +251,14 @@
                 min-width: auto;
                 transform: none !important;
                 margin: 20px auto;
+            }
+            .sub-buttons {
+                grid-row: 6;
+            }
+            .search-container {
+            grid-column: 1;
+            grid-row: 5;
+            width: 100%;
             }
             .clock-container {
                 grid-column: 1;
@@ -317,9 +325,218 @@
                 padding: 10px;
             }
         }
+
+        /* 优化后的透明加载动画样式 */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(247, 233, 215, 0.5); /* 半透明背景 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(3px); /* 添加模糊效果 */
+        }
+        .paint-loader {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .paint-stroke {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 15px solid;
+            border-color: rgba(231, 76, 60, 0.8) rgba(52, 152, 219, 0.8) rgba(46, 204, 113, 0.8) rgba(241, 196, 15, 0.8);
+            animation: paint 2s linear infinite;
+        }
+        .paint-stroke:nth-child(1) {
+            animation-delay: -0.5s;
+        }
+        .paint-stroke:nth-child(2) {
+            animation-delay: -1s;
+        }
+        .paint-stroke:nth-child(3) {
+            animation-delay: -1.5s;
+        }
+        @keyframes paint {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader-text {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 28px;
+            color: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        .loader-subtext {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 22px;
+            color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            font-style: italic;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        .loader-percentage {
+            font-size: 48px;
+            font-weight: bold;
+            color: rgba(231, 76, 60, 0.9);
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        /*搜索框*/
+        .search-container {
+        grid-column: 1 / span 2;
+        grid-row: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5px;
+        }
+        #search-input {
+        width: 70%;
+        padding: 10px;
+        font-size: 1em;
+        border: none;
+        border-radius: 20px 0 0 20px;
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.8);
+        }
+        #search-button {
+        padding: 10px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 0 20px 20px 0;
+        background-color: rgba(76, 175, 80, 0.8);
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        }
+        #search-button:hover {
+        background-color: rgba(76, 175, 80, 1);
+        }
+
+        /* 提示消息样式 */
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .message-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-box h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .message-box ul {
+            padding-left: 15px;
+        }
+
+        #close-message {
+            display: block;
+            font-size: 14px; /* 字体大小 */
+            margin: 10px auto 0;
+            padding: 10px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #close-message:hover {
+            background-color: #45a049;
+        }
+        .firework {  
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: firework 1s ease-out;
+            animation-fill-mode: forwards;
+        }
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+                }
+        }
+
     </style>
 </head>
 <body>
+    <!-- 优化后的油画风格加载动画的 HTML -->
+    <div class="loader-wrapper" id="loader">
+        <div class="paint-loader">
+            <div class="paint-stroke"></div>
+            <div class="paint-stroke"></div>
+            <div class="paint-stroke"></div>
+        </div>
+        <div class="loader-text">正在为您绘制美好世界...</div>
+        <div class="loader-subtext">每一笔都是匠心独运</div>
+        <div class="loader-percentage" id="loader-percentage">0%</div>
+    </div>
+
+    <!-- 添加提示消息 -->
+    <div class="message-overlay" id="message-overlay">
+        <div class="message-box">
+            <h2>网站建设进度</h2>
+            <p>当前网站仍在建设中,已完成功能:</p>
+            <ul>
+                <li>导航按钮设置</li>
+                <li>主页框架搭建</li>
+                <li>时钟功能实现</li>
+                <li>储存库框架搭建</li>
+                <li>关于我页面搭建</li>
+            </ul>
+            <p>更多功能正在开发中,敬请期待!</p>
+            <p>当前网站更新于2024年10月2日:</p>
+            <button id="close-message">我知道了</button>
+        </div>
+    </div>
+
     <div class="container">
         <div class="clock-container">
             <div class="clock" id="clock">
@@ -336,7 +553,7 @@
             </div>
         </div>
         <div class="welcome">
-          欢迎来到我的世界引导页<br>
+          欢迎来到耀斑的世界引导页<br>
           Welcome to my guide page
         </div>
 
@@ -351,12 +568,20 @@
                 <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>更多(待开发)</button></a>
             </div>
         </div>
+
         <div class="motto">
           我本楚狂人，<br>
           凤歌笑孔丘。<br>
           韶华正茂岁方长，<br>
           何惧风霜试剑芒。
         </div>
+
+        <!-- 添加搜索框 -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="搜索...">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
         <div class="sub-buttons">
             <a href="https://github.com/example1" target="_blank"><button><i class="fab fa-github"></i></button></a>
             <a href="https://github.com/example2" target="_blank"><button><i class="fab fa-github"></i></button></a>
@@ -411,6 +636,67 @@
 
         window.addEventListener('load', adjustPageSize);
         window.addEventListener('resize', adjustPageSize);
+
+        // 优化加载动画和添加百分比显示的代码
+        window.addEventListener('load', function() {
+            let percentage = 0;
+            const loaderPercentage = document.getElementById('loader-percentage');
+            const loader = document.getElementById('loader');
+            const messageOverlay = document.getElementById('message-overlay');
+
+            function updatePercentage() {
+                percentage += 1;
+                loaderPercentage.textContent = percentage + '%';
+                
+                if (percentage < 100) {
+                    setTimeout(updatePercentage, 20);
+                } else {
+                    setTimeout(function() {
+                        loader.style.opacity = '0';
+                        loader.style.transition = 'opacity 0.5s ease';
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                            // 显示提示消息
+                            messageOverlay.classList.add('show');
+                        }, 500);
+                    }, 500);
+                }
+            }
+
+            updatePercentage();
+        });
+
+        // 关闭提示消息并触发烟花动画
+        document.getElementById('close-message').addEventListener('click', function() {
+            document.getElementById('message-overlay').classList.remove('show');
+            createFireworks();
+        });
+
+        function createFireworks() {
+            const fireworksContainer = document.createElement('div');
+            fireworksContainer.style.position = 'fixed';
+            fireworksContainer.style.top = '0';
+            fireworksContainer.style.left = '0';
+            fireworksContainer.style.width = '100%';
+            fireworksContainer.style.height = '100%';
+            fireworksContainer.style.pointerEvents = 'none';
+            fireworksContainer.style.zIndex = '10000';
+            document.body.appendChild(fireworksContainer);
+
+            for (let i = 0; i < 500; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight + 'px';
+                firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                firework.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+                firework.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
+                fireworksContainer.appendChild(firework);
+            }
+            setTimeout(() => {
+                fireworksContainer.remove();
+            }, 1000);
+        }
     </script>
 </body>
 </html>

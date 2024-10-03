@@ -12,7 +12,7 @@
             padding: 0;
             height: 100%;
             font-family: 'Noto Sans SC', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden; /*允许垂直滚动，但禁止水平滚动*/
         }
         body {
             background-image: url('https://img1.wallspic.com/attachments/crops/8/4/3/0/7/170348/170348-re_dai_qi_xuan-feng_bao-zhe_ge_xing_qiu-qi_fen-de_ping_xian-1920x1080.jpg');
@@ -146,10 +146,9 @@
         .nav-title {
             color: white;
             font-size: 2em;
-            text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
             font-weight: 600;
+            margin-right: 20px; /* 添加右边距，与搜索框保持一定距离 */
         }
         .buttons-grid {
             display: grid;
@@ -193,43 +192,45 @@
             font-size: 1.5em;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             background-color: rgba(0, 0, 0, 0.3);
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             transition: background-color 0.3s ease;
+            margin-bottom: -20px; /* 添加这行来减少下方间距 */
         }
         .motto:hover {
             background-color: rgba(0, 0, 0, 0.5);
         }
+        /*左下角按钮*/
         .sub-buttons {
             grid-column: 1 / span 2;
-            grid-row: 4;
+            grid-row: 3;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        button {
-            padding: 25px;
-            border: none;
-            background-color: rgba(76, 175, 80, 0.5);
-            color: white;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.5em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            font-weight: 400;
+            padding: 10px;
         }
-        button:hover {
-            background-color: rgba(76, 175, 80, 0.7);
-            transform: scale(1.05);
-        }
-        .sub-buttons button {
+        .sub-button {
+            display: flex;
+            align-items: center;
             background-color: rgba(0, 140, 186, 0.5);
-            font-size: 1.3em;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 8px;
+            text-decoration: none;
+            color: white;
+            transition: background-color 0.3s ease;
         }
-        .sub-buttons button:hover {
+        .sub-button:hover {
             background-color: rgba(0, 140, 186, 0.7);
+        }
+        .sub-button i {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .sub-button span {
+            font-size: 1.2em;
         }
 
         /* 添加移动设备适配样式 */
@@ -311,7 +312,7 @@
             .motto {
                 grid-column: 1;
                 grid-row: 4;
-                font-size: 1em;
+                font-size: 1.1em;
                 padding: 10px;
             }
             .sub-buttons {
@@ -409,15 +410,15 @@
         #search-input {
         width: 70%;
         padding: 10px;
-        font-size: 1em;
+        font-size: 1.5em;
         border: none;
         border-radius: 20px 0 0 20px;
         outline: none;
         background-color: rgba(255, 255, 255, 0.8);
         }
         #search-button {
-        padding: 10px 15px;
-        font-size: 1em;
+        padding: 20px 15px;
+        font-size: 1.5em;
         border: none;
         border-radius: 0 20px 20px 0;
         background-color: rgba(76, 175, 80, 0.8);
@@ -504,6 +505,64 @@
                 }
         }
 
+        /*网页导航*/
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .nav-title {
+            color: white;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 600;
+        }
+        .search-container {
+            display: flex;
+            flex-grow: 1; /* 允许搜索容器占据剩余空间 */
+            max-width: 100%; /* 限制最大宽度，避免过宽 */
+        }
+        #search-input {
+            width: 100%;
+            padding: 12px 15px; /* 增加内边距 */
+            font-size: 1.2em;
+            border: none;
+            border-radius: 20px 0 0 25px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        #search-button {
+            padding: 10px 15px;
+            font-size: 1em;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #search-button:hover {
+            background-color: rgba(76, 175, 80, 1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-title {
+                text-align: center;
+                margin-bottom: 15px;
+                margin-right: 0; /* 移动端下取消右边距 */
+            }
+
+            .search-container {
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -558,7 +617,13 @@
         </div>
 
         <div class="main-buttons">
-            <div class="nav-title">网页导航</div>
+            <div class="nav-header">
+                <div class="nav-title">网页导航</div>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="搜索...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
             <div class="buttons-grid">
                 <a href="https://chyaoban.github.io/html/index.html" target="_blank"><button>我的主页</button></a>
                 <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识医院</button></a>
@@ -570,27 +635,44 @@
         </div>
 
         <div class="motto">
-          我本楚狂人，<br>
-          凤歌笑孔丘。<br>
+          我本楚狂人，凤歌笑孔丘。<br>
           韶华正茂岁方长，<br>
           何惧风霜试剑芒。
         </div>
 
-        <!-- 添加搜索框 -->
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="搜索...">
-            <button id="search-button"><i class="fas fa-search"></i></button>
-        </div>
-
         <div class="sub-buttons">
-            <a href="https://github.com/example1" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example2" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example3" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example4" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example5" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example6" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example7" target="_blank"><button><i class="fab fa-github"></i></button></a>
-            <a href="https://github.com/example8" target="_blank"><button><i class="fab fa-github"></i></button></a>
+            <a href="https://www.google.com" target="_blank" class="sub-button">
+                <i class="fab fa-google"></i>
+                <span>谷歌</span>
+            </a>
+            <a href="https://www.bing.com" target="_blank" class="sub-button">
+                <i class="fab fa-microsoft"></i>
+                <span>必应</span>
+            </a>
+            <a href="https://github.com/example3" target="_blank" class="sub-button">
+                <i class="fab fa-github"></i>
+                <span>Githu</span>
+            </a>
+            <a href="https://stackoverflow.com" target="_blank" class="sub-button">
+                <i class="fab fa-github"></i>
+                <span>Stack Overflow</span>
+            </a>
+            <a href="https://www.baidu.com" target="_blank" class="sub-button">
+                <i class="fas fa-paw"></i>
+                <span>百度</span>
+            </a>
+            <a href="https://www.csdn.net" target="_blank" class="sub-button">
+                <i class="fas fa-code"></i>
+                <span>CSDN</span>
+            </a>
+            <a href="https://www.zhihu.com" target="_blank" class="sub-button">
+                <i class="fas fa-question-circle"></i>
+                <span>知乎</span>
+            </a>
+            <a href="https://github.com/example1" target="_blank" class="sub-button">
+                <i class="fab fa-github"></i>
+                <span>项目一</span>
+            </a>
         </div>
     </div>
 
@@ -693,6 +775,7 @@
                 firework.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
                 fireworksContainer.appendChild(firework);
             }
+
             setTimeout(() => {
                 fireworksContainer.remove();
             }, 1000);

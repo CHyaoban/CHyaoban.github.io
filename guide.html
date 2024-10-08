@@ -153,7 +153,7 @@
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 15px;
             height: calc(100% - 60px);
         }
         .buttons-grid a {
@@ -306,8 +306,8 @@
                 gap: 10px;
             }
             .buttons-grid button {
-                font-size: 1em;
-                padding: 8px;
+                font-size: 1.2em; /* 增加移动端的字体大小 */
+                padding: 10px; /* 调整移动端的内边距 */
             }
             .motto {
                 grid-column: 1;
@@ -563,6 +563,141 @@
             }
         }
 
+        /* 优化移动端样式 */
+        @media (max-width: 768px) {
+            body {
+                background-position: center center;
+                background-attachment: fixed;
+                height: auto;
+                min-height: 100vh; /* 确保至少占满整个视口高度 */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto auto;
+                gap: 15px;
+                padding: 15px;
+                width: 95%;
+                height: auto;
+                min-height: auto;
+                min-width: auto;
+                transform: none !important;
+                margin: 20px auto;
+            }
+            .clock-container {
+                grid-column: 1;
+                grid-row: 1;
+                flex-direction: row; /* 改为水平排列 */
+                justify-content: center;
+                align-items: center;
+            }
+            .clock {
+                width: 80px;
+                height: 80px;
+                margin-right: 15px; /* 添加右边距 */
+            }
+            .digital-clock {
+                margin-left: 0;
+                text-align: left;
+            }
+            .digital-time {
+                font-size: 1.8em;
+            }
+            .digital-date {
+                font-size: 1em;
+            }
+            .welcome {
+                grid-column: 1;
+                grid-row: 2;
+                font-size: 1.2em;
+                text-align: center;
+                justify-content: center;
+                max-width: 100%;
+                margin: 10px 0;
+                padding: 8px 15px;
+            }
+            .main-buttons {
+                grid-column: 1;
+                grid-row: 3;
+                padding: 15px;
+            }
+            .nav-title {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            .buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .buttons-grid button {
+                font-size: 1.2em;
+                padding: 12px 8px; /* 增加垂直内边距 */
+            }
+            .motto {
+                grid-column: 1;
+                grid-row: 4;
+                font-size: 1.1em;
+                padding: 10px;
+            }
+            .sub-buttons {
+                grid-column: 1;
+                grid-row: 5;
+                grid-template-columns: repeat(2, 1fr); /* 改为两列 */
+                gap: 10px;
+            }
+            .sub-button {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .search-container {
+                grid-column: 1;
+                grid-row: 6;
+                width: 100%;
+                margin-top: 10px;
+            }
+            #search-input {
+                font-size: 1em;
+                padding: 10px;
+            }
+            #search-button {
+                padding: 10px;
+            }
+        }
+
+        /* 添加平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 美化按钮样式 */
+        .buttons-grid button,
+        .sub-button {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .buttons-grid button:hover,
+        .sub-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .buttons-grid button i {
+            margin-right: 10px; /* 在图标和文字之间添加一些间距 */
+            font-size: 0.9em; /* 稍微调整图标大小 */
+        }
+
+        @media (max-width: 768px) {
+            .buttons-grid button {
+                font-size: 1.2em;
+                padding: 10px;
+            }
+
+            .buttons-grid button i {
+                margin-right: 5px; /* 在移动端减少图标和文字之间的间距 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -625,12 +760,15 @@
                 </div>
             </div>
             <div class="buttons-grid">
-                <a href="https://chyaoban.github.io/html/index.html" target="_blank"><button>我的主页</button></a>
-                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识医院</button></a>
-                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>知识学院</button></a>
-                <a href="https://chyaoban.github.io/html/storage.html" target="_blank"><button>储存库</button></a>
-                <a href="https://chyaoban.github.io/html/about.html" target="_blank"><button>关于我</button></a>
-                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button>更多(待开发)</button></a>
+                <a href="https://chyaoban.github.io/html/index.html" target="_blank"><button><i class="fas fa-home"></i> 我的主页</button></a>
+                <a href="https://chyaoban.github.io/html/stop.html" target="_blank"><button><i class="fas fa-hospital"></i> 知识医院</button></a>
+                <a href="https://chyaoban.github.io/html/school.html" target="_blank"><button><i class="fas fa-school"></i> 知识学院</button></a>
+                <a href="https://chyaoban.github.io/html/storage.html" target="_blank"><button><i class="fas fa-database"></i> 储存库</button></a>
+                <a href="https://chyaoban.github.io/html/about.html" target="_blank"><button><i class="fas fa-user"></i> 关于我</button></a>
+                <a href="https://www.chattts.co/zh#free" target="_blank"><button><i class="fas fa-tools"></i> 工具</button></a>
+                <a href="#" target="_blank"><button><i class="fas fa-lock"></i> 未开放</button></a>
+                <a href="#" target="_blank"><button><i class="fas fa-lock"></i> 未开放</button></a>
+                <a href="#" target="_blank"><button><i class="fas fa-lock"></i> 未开放</button></a>
             </div>
         </div>
 
@@ -779,6 +917,48 @@
             setTimeout(() => {
                 fireworksContainer.remove();
             }, 1000);
+        }
+
+        // 添加页面加载完成后的处理
+        window.addEventListener('load', function() {
+            // 移动端检测
+            if (window.innerWidth <= 768) {
+                // 调整容器高度以适应内容
+                const container = document.querySelector('.container');
+                container.style.height = 'auto';
+                container.style.minHeight = '100vh';
+                
+                // 确保内容居中
+                document.body.style.display = 'flex';
+                document.body.style.alignItems = 'center';
+                document.body.style.justifyContent = 'center';
+            }
+        });
+
+        // 监听窗口大小变化
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                adjustMobileLayout();
+            } else {
+                resetDesktopLayout();
+            }
+        });
+
+        function adjustMobileLayout() {
+            const container = document.querySelector('.container');
+            container.style.height = 'auto';
+            container.style.minHeight = '100vh';
+            document.body.style.display = 'flex';
+            document.body.style.alignItems = 'center';
+            document.body.style.justifyContent = 'center';
+        }
+
+        function resetDesktopLayout() {
+            const container = document.querySelector('.container');
+            container.style.height = '80vh';
+            container.style.minHeight = '600px';
+            document.body.style.display = 'block';
+            adjustPageSize();
         }
     </script>
 </body>
